@@ -1,0 +1,42 @@
+-- Script to freeze players
+-- Place this in ServerScriptService
+
+local Players = game:GetService("Players")
+
+-- Function to freeze a player
+local function freezePlayer(player)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.Anchored = true -- Freeze the player
+    end
+end
+
+-- Function to unfreeze a player
+local function unfreezePlayer(player)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.Anchored = false -- Unfreeze the player
+    end
+end
+
+-- Example: Freeze all players when a button is clicked
+local freezeCommand = Instance.new("BindableEvent")
+freezeCommand.Name = "FreezeCommand"
+freezeCommand.Parent = game.ReplicatedStorage
+
+freezeCommand.Event:Connect(function()
+    for _, player in pairs(Players:GetPlayers()) do
+        freezePlayer(player)
+    end
+end)
+
+-- Example: Unfreeze all players when another button is clicked
+local unfreezeCommand = Instance.new("BindableEvent")
+unfreezeCommand.Name = "UnfreezeCommand"
+unfreezeCommand.Parent = game.ReplicatedStorage
+
+unfreezeCommand.Event:Connect(function()
+    for _, player in pairs(Players:GetPlayers()) do
+        unfreezePlayer(player)
+    end
+end)
